@@ -9,6 +9,7 @@ const router = express.Router();
 
 const User = require("../models/User");
 const verifyEmail = require("../utils/verifyInput");
+const isAuthenticated = require("../utils/middleWares");
 
 // SIGNUP
 
@@ -91,14 +92,14 @@ router.post("/user/login", async (req, res) => {
 
 //UPDATE
 
-router.post("/user/update", async (req, res) => {
+router.post("/user/update", isAuthenticated, async (req, res) => {
 	try {
 		const foundUser = await User.findById(req.fields.id);
 		if (!foundUser) {
 			res.status(400).json({ error: `Id missing or incorect` });
 		} else {
 			// Update image
-			if (req.files) {
+			if (req.files.picture) {
 				await cloudinary.api.delete_resources_by_prefix(
 					`${foundUser.account.avatar.public_id}`
 				);
