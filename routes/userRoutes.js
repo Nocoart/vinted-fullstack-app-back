@@ -44,7 +44,7 @@ router.post("/user/signup", async (req, res) => {
 					const savedPicture = await cloudinary.uploader.upload(
 						pictureToUpload,
 						{
-							folder: `/Vinted/users/${newUser._id}`,
+							folder: `/vinted/users/${newUser._id}`,
 						}
 					);
 					console.log(savedPicture);
@@ -105,7 +105,7 @@ router.post("/user/update", async (req, res) => {
 
 				const pictureToUpload = req.files.picture.path;
 				const savedPicture = await cloudinary.uploader.upload(pictureToUpload, {
-					folder: `/Vinted/users/${foundUser._id}`,
+					folder: `/vinted/users/${foundUser._id}`,
 				});
 
 				foundUser.account.avatar = savedPicture;

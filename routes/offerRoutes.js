@@ -26,7 +26,7 @@ router.post("/offer/publish", isAuthenticated, async (req, res) => {
 
 		const pictureToUpload = req.files.picture.path;
 		const savedPicture = await cloudinary.uploader.upload(pictureToUpload, {
-			folder: `/Vinted/offers/${newOffer._id}`,
+			folder: `/vinted/offers/${newOffer._id}`,
 		});
 
 		newOffer.product_image = savedPicture;
@@ -53,7 +53,7 @@ router.put("/offer/update", isAuthenticated, async (req, res) => {
 
 				const pictureToUpload = req.files.picture.path;
 				const savedPicture = await cloudinary.uploader.upload(pictureToUpload, {
-					folder: `/Vinted/offers/${foundOffer._id}`,
+					folder: `/vinted/offers/${foundOffer._id}`,
 				});
 
 				foundOffer.product_image = savedPicture;
@@ -102,10 +102,10 @@ router.delete("/offer/delete", isAuthenticated, async (req, res) => {
 			res.status(400).json({ error: `Id missing or incorect` });
 		} else {
 			await cloudinary.api.delete_resources_by_prefix(
-				`Vinted/offers/${foundOffer._id}`
+				`vinted/offers/${foundOffer._id}`
 			);
 
-			await cloudinary.api.delete_folder(`/Vinted/offers/${foundOffer._id}`);
+			await cloudinary.api.delete_folder(`/vinted/offers/${foundOffer._id}`);
 
 			await Offer.deleteOne({ _id: req.fields.id });
 			res.status(200).json(`Offer successfully deleted`);
