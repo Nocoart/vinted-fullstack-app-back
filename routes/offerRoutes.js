@@ -9,16 +9,19 @@ const Offer = require("../models/Offer");
 
 router.post("/offer/publish", isAuthenticated, async (req, res) => {
 	try {
+		const { title, description, price, brand, size, condition, color, city } =
+			req.fields;
+
 		const newOffer = new Offer({
-			product_name: req.fields.title,
-			product_description: req.fields.description,
-			product_price: req.fields.price,
+			product_name: title,
+			product_description: description,
+			product_price: price,
 			product_details: [
-				{ MARQUE: req.fields.brand },
-				{ TAILLE: req.fields.size },
-				{ ÉTAT: req.fields.condition },
-				{ COULEUR: req.fields.color },
-				{ EMPLACEMENT: req.fields.city },
+				{ MARQUE: brand },
+				{ TAILLE: size },
+				{ ÉTAT: condition },
+				{ COULEUR: color },
+				{ EMPLACEMENT: city },
 			],
 
 			owner: req.user,
