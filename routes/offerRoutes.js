@@ -124,7 +124,7 @@ router.get("/offers", async (req, res) => {
 	try {
 		let filterObject = {};
 		let sortingObject;
-		let itemsByPage = Number(req.query.limit);
+		let limit = Number(req.query.limit);
 		let page;
 
 		if (req.query.title) {
@@ -158,7 +158,7 @@ router.get("/offers", async (req, res) => {
 			.populate("owner", "account _id token")
 			.sort(sortingObject)
 			.skip((page - 1) * limit)
-			.limit(itemsByPage);
+			.limit(limit);
 		// .select("product_name product_price");
 
 		const count = await Offer.countDocuments(filterObject);
