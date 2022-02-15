@@ -124,8 +124,9 @@ router.get("/offers", async (req, res) => {
 	try {
 		let filterObject = {};
 		let sortingObject;
-		let limit = Number(req.query.limit);
-		let page;
+		let itemsByPage = req.query.limit;
+		let chosenPage = 0;
+		let skipped;
 
 		if (req.query.title) {
 			filterObject.product_name = new RegExp(req.query.title, "i");
@@ -147,18 +148,19 @@ router.get("/offers", async (req, res) => {
 				sortingObject = { product_price: -1 };
 			}
 		}
-
-		if (Number(req.query.page) < 1) {
-			page = 1;
-		} else {
-			page = Number(req.query.page);
+		if (req.query.limit) {
+			itemsByPage = req.query.limit;
+		}
+		if (req.query.page) {
+			chosenPage = req.query.page - 1;
+			skipped = chosenPage * itemsByPage;
 		}
 
 		const foundOffer = await Offer.find(filterObject)
 			.populate("owner", "account _id token")
 			.sort(sortingObject)
-			.skip((page - 1) * limit)
-			.limit(limit);
+			.limit(itemsByPage)
+			.skip(skipped);
 		// .select("product_name product_price");
 
 		const count = await Offer.countDocuments(filterObject);
