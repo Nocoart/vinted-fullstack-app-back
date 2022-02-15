@@ -157,7 +157,7 @@ router.get("/offers", async (req, res) => {
 		}
 
 		const foundOffer = await Offer.find(filterObject)
-			.populate("owner")
+			.populate("owner", "account _id token")
 			.sort(sortingObject)
 			.limit(itemsByPage)
 			.skip(skipped);
