@@ -124,7 +124,7 @@ router.get("/offers", async (req, res) => {
 	try {
 		let filterObject = {};
 		let sortingObject;
-		let itemsByPage = 3;
+		let itemsByPage = req.query.limit;
 		let chosenPage = 0;
 		let skipped;
 
