@@ -83,7 +83,13 @@ router.post("/user/login", async (req, res) => {
 			encBase64
 		);
 		if (newHash === foundUser.hash) {
-			res.status(200).json({ message: `authentification completed` });
+			res
+				.status(200)
+				.json({
+					_id: foundUser._id,
+					token: foundUser.token,
+					account: foundUser.account,
+				});
 		} else {
 			res.status(400).json({ message: `Email and password do not match` });
 		}
