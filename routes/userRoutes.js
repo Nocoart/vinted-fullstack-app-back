@@ -41,6 +41,7 @@ router.post("/user/signup", async (req, res) => {
 				});
 
 				if (req.files) {
+					console.log(req.files.picture);
 					const pictureToUpload = req.files.picture.path;
 					const savedPicture = await cloudinary.uploader.upload(
 						pictureToUpload,
@@ -83,13 +84,11 @@ router.post("/user/login", async (req, res) => {
 			encBase64
 		);
 		if (newHash === foundUser.hash) {
-			res
-				.status(200)
-				.json({
-					_id: foundUser._id,
-					token: foundUser.token,
-					account: foundUser.account,
-				});
+			res.status(200).json({
+				_id: foundUser._id,
+				token: foundUser.token,
+				account: foundUser.account,
+			});
 		} else {
 			res.status(400).json({ message: `Email and password do not match` });
 		}
