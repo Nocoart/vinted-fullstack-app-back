@@ -4,6 +4,7 @@ const cloudinary = require("cloudinary").v2;
 
 const isAuthenticated = require("../utils/middleWares");
 const Offer = require("../models/Offer");
+const User = require("../models/User");
 
 //PUBLISH
 
@@ -156,6 +157,7 @@ router.get("/offers", async (req, res) => {
 		}
 
 		const foundOffer = await Offer.find(filterObject)
+			.populate("owner")
 			.sort(sortingObject)
 			.limit(itemsByPage)
 			.skip(skipped);
