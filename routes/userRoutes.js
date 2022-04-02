@@ -39,16 +39,12 @@ router.post("/user/signup", async (req, res) => {
           hash: hash,
           salt: salt,
         });
-        console.log("rigth place");
         if (req.files.picture) {
-          console.log(req.files.picture);
           const pictureToUpload = req.files.picture.path;
           const savedPicture = await cloudinary.uploader.upload(pictureToUpload, {
             folder: `/vinted/users/${newUser._id}`,
           });
-          console.log(savedPicture);
           newUser.account.avatar = savedPicture;
-          console.log(newUser);
         }
 
         await newUser.save();
